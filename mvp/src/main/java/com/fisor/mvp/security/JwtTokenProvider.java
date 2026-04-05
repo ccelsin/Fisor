@@ -54,11 +54,15 @@ public class JwtTokenProvider {
 
     // validate JWT token
     public boolean validateToken(String token){
+        try{
             Jwts.parser()
                     .verifyWith((SecretKey) key())
                     .build()
                     .parse(token);
             return true;
+        }catch(Exception ex){
+            return false;
+        }
 
     }
 }
