@@ -35,7 +35,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     private JwtTokenProvider jwtTokenProvider;
 
     @Override
-    @Transactional
+    @Transactional // Assure que la création de l'utilisateur et l'assignation du rôle se font dans une même transaction
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
         

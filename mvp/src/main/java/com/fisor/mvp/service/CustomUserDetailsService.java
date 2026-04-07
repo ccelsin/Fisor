@@ -7,7 +7,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import com.fisor.mvp.dto.UserDto;
@@ -78,10 +77,4 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     }
 
-    public User saveUserOauth2(OAuth2User oAuth2User){
-        User user = new User();
-        user.setUsername(oAuth2User.getAttribute("name"));
-        user.setEmail(oAuth2User.getAttribute("email"));
-        return user;
-    }
 }
