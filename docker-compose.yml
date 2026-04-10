@@ -13,9 +13,6 @@ services:
       - ${POSTGRESQL_PORT}:${POSTGRESQL_PORT}
     
   backend:
-    build: mvp
-    depends_on: 
-      - postgres
     environment:
       SERVER_PORT: ${SERVER_PORT}
       POSTGRESQL_HOST: ${POSTGRESQL_HOST}
@@ -27,6 +24,9 @@ services:
       JWT_EXP: ${JWT_EXP}
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+    build: mvp
+    depends_on: 
+      - postgres
     ports:
       - ${SERVER_PORT}:${SERVER_PORT}
 
