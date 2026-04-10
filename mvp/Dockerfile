@@ -8,7 +8,7 @@ RUN mvn -B -q dependency:go-offline
 COPY src ./src
 RUN mvn -B -q package -DskipTests
 
-COPY /app/target/mvp-0.0.1-SNAPSHOT.jar /app/app.jar
+COPY /target/mvp-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8081
 ENTRYPOINT ["java", "-jar", "app.jar"]
 
