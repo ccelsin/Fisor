@@ -1,0 +1,31 @@
+name: Continuous Integration Configuration
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          cat > .env << EOF
+          SERVER_PORT=${{ secrets.SERVER_PORT}}
+          POSTGRESQL_HOST=${{ secrets.POSTGRESQL_HOST}}
+          POSTGRESQL_DB=${{ secrets.POSTGRESQL_DB}}
+          POSTGRESQL_PORT=${{ secrets.POSTGRESQL_PORT}}
+          POSTGRESQL_USER=${{ secrets.POSTGRESQL_USER}}
+          POSTGRESQL_PASSWORD=${{ secrets.POSTGRESQL_PASSWORD}}
+          JWT_SECRET=${{ secrets.JWT_SECRET }}
+          JWT_EXP=${{ secrets.JWT_EXP }}
+          GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
+          EOF
+      - run: docker compose up -d --build
+      - run: |
+          for i in {1..30}; do
+            docker exec postgres psql -U ${{ secrets.POSTGRESQL_USER}} -d ${{ secrets.POSTGRESQL_DB}} -c "SELECT 1" && break || sleep 1
+          done
+      - run: docker exec backend mvn clean test
+      - run: docker compose down
+        if: always()
+          
