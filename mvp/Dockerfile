@@ -5,7 +5,7 @@ COPY pom.xml .
 RUN mvn -B -q dependency:go-offline
 
 COPY src ./src
-RUN mvn -B -q package -DskipTests
+RUN mvn -B -q package -Dspring.profiles.actives=dev
 
 COPY target/mvp-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8081
